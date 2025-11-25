@@ -39,7 +39,6 @@ public class customerActivity extends AppCompatActivity {
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_customer);
-
         // Ánh xạ view
         recyclerView = findViewById(R.id.Rvcustomer);
         edtSearch = findViewById(R.id.edtSearch);

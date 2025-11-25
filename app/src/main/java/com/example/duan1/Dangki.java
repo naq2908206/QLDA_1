@@ -29,7 +29,6 @@ import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 
 public class Dangki extends AppCompatActivity {
-
     EditText edtEmail,edtPass,edtPhone,edtName;
     Button btnDangki;
     TextView tvDangnhap;
@@ -85,9 +84,6 @@ public class Dangki extends AppCompatActivity {
                             Log.e("Lỗi", "onFailure", t);
                         }
                     });
-
-
-
         });
 
     }

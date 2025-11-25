@@ -26,11 +26,9 @@ import retrofit2.http.Query;
 
 
 public interface ApiServices {
-
     public  String Url="http://192.168.0.114:3000/";
     @POST("api/register")
     Call<Response<User>> register(@Body Map<String, String> body);
-
     @POST("api/login")
     Call<Response<User>> login(@Body Map<String, String> body);
 
