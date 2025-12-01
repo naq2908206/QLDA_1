@@ -18,6 +18,12 @@
         android:theme="@style/Theme.DUAN1"
         android:usesCleartextTraffic="true">
         <activity
+            android:name=".ui_admin.QuanLySanPham"
+            android:exported="false" />
+        <activity
+            android:name=".ui_admin.QuanLyDanhMuc"
+            android:exported="false" />
+        <activity
             android:name=".Manchinhnguoidung"
             android:exported="false" />
         <activity
