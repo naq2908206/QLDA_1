@@ -21,7 +21,10 @@ import com.example.duan1.R;
 import com.example.duan1.model.DanhMuc;
 import com.example.duan1.model.Response;
 import com.example.duan1.services.ApiServices;
+<<<<<<< HEAD
 import com.example.duan1.utils.PollingHelper;
+=======
+>>>>>>> origin/master
 import com.example.duan1.utils.RetrofitClient;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.textfield.TextInputEditText;
@@ -43,7 +46,10 @@ public class QuanLyDanhMuc extends AppCompatActivity {
     private FloatingActionButton fabAddDanhMuc;
     private ImageView imgBack;
     private ApiServices apiServices;
+<<<<<<< HEAD
     private PollingHelper pollingHelper;
+=======
+>>>>>>> origin/master
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -58,7 +64,11 @@ public class QuanLyDanhMuc extends AppCompatActivity {
         edtSearchDanhMuc = findViewById(R.id.edtSearchDanhMuc);
         fabAddDanhMuc = findViewById(R.id.fabAddDanhMuc);
         imgBack = findViewById(R.id.imgBack);
+<<<<<<< HEAD
         
+=======
+
+>>>>>>> origin/master
         // Xử lý nút back
         imgBack.setOnClickListener(v -> finish());
 
@@ -73,6 +83,7 @@ public class QuanLyDanhMuc extends AppCompatActivity {
         // Load danh mục từ API
         loadCategories();
 
+<<<<<<< HEAD
         // Khởi tạo PollingHelper để tự động cập nhật mỗi 5 giây
         pollingHelper = new PollingHelper("QuanLyDanhMuc", 5000);
         pollingHelper.setRefreshCallback(() -> {
@@ -82,6 +93,8 @@ public class QuanLyDanhMuc extends AppCompatActivity {
             }
         });
         pollingHelper.startPolling();
+=======
+>>>>>>> origin/master
 
         // Search
         edtSearchDanhMuc.addTextChangedListener(new TextWatcher() {
@@ -114,6 +127,7 @@ public class QuanLyDanhMuc extends AppCompatActivity {
             @Override
             public void onDeleteClick(int position) {
                 DanhMuc danhMuc = danhMucList.get(position);
+<<<<<<< HEAD
                 // Confirm dialog trước khi xóa
                 new android.app.AlertDialog.Builder(QuanLyDanhMuc.this)
                         .setTitle("Xác nhận xóa")
@@ -123,6 +137,9 @@ public class QuanLyDanhMuc extends AppCompatActivity {
                         })
                         .setNegativeButton("Hủy", null)
                         .show();
+=======
+                deleteCategory(danhMuc.getId(), position);
+>>>>>>> origin/master
             }
         });
 
@@ -134,7 +151,11 @@ public class QuanLyDanhMuc extends AppCompatActivity {
         Dialog dialog = new Dialog(this);
         dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
         dialog.setContentView(R.layout.dialog_them_danh_muc);
+<<<<<<< HEAD
         
+=======
+
+>>>>>>> origin/master
         // Set width cho dialog
         android.view.WindowManager.LayoutParams params = dialog.getWindow().getAttributes();
         params.width = (int) (getResources().getDisplayMetrics().widthPixels * 0.9);
@@ -165,7 +186,11 @@ public class QuanLyDanhMuc extends AppCompatActivity {
         Dialog dialog = new Dialog(this);
         dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
         dialog.setContentView(R.layout.dialog_them_danh_muc);
+<<<<<<< HEAD
         
+=======
+
+>>>>>>> origin/master
         // Set width cho dialog
         android.view.WindowManager.LayoutParams params = dialog.getWindow().getAttributes();
         params.width = (int) (getResources().getDisplayMetrics().widthPixels * 0.9);
@@ -200,7 +225,11 @@ public class QuanLyDanhMuc extends AppCompatActivity {
         Dialog dialog = new Dialog(this);
         dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
         dialog.setContentView(R.layout.dialog_chi_tiet_danh_muc);
+<<<<<<< HEAD
         
+=======
+
+>>>>>>> origin/master
         // Set width cho dialog
         android.view.WindowManager.LayoutParams params = dialog.getWindow().getAttributes();
         params.width = (int) (getResources().getDisplayMetrics().widthPixels * 0.9);
@@ -212,7 +241,11 @@ public class QuanLyDanhMuc extends AppCompatActivity {
         Button btnDong = dialog.findViewById(R.id.btnDong);
 
         tvTen.setText(danhMuc.getName() != null ? danhMuc.getName() : "Chưa có tên");
+<<<<<<< HEAD
         tvMoTa.setText(danhMuc.getDescription() != null && !danhMuc.getDescription().isEmpty() 
+=======
+        tvMoTa.setText(danhMuc.getDescription() != null && !danhMuc.getDescription().isEmpty()
+>>>>>>> origin/master
                 ? danhMuc.getDescription() : "Chưa có mô tả");
         tvId.setText(danhMuc.getId() != null ? danhMuc.getId() : "Chưa có ID");
 
@@ -349,6 +382,7 @@ public class QuanLyDanhMuc extends AppCompatActivity {
             }
         });
     }
+<<<<<<< HEAD
 
     @Override
     protected void onDestroy() {
@@ -357,5 +391,7 @@ public class QuanLyDanhMuc extends AppCompatActivity {
             pollingHelper.stopPolling();
         }
     }
+=======
+>>>>>>> origin/master
 }
 

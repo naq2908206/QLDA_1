@@ -31,7 +31,6 @@ import com.example.duan1.model.DanhMuc;
 import com.example.duan1.model.Product;
 import com.example.duan1.model.Response;
 import com.example.duan1.services.ApiServices;
-import com.example.duan1.utils.PollingHelper;
 import com.example.duan1.utils.RetrofitClient;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.textfield.TextInputEditText;
@@ -64,7 +63,6 @@ public class QuanLySanPham extends AppCompatActivity {
     private ApiServices apiServices;
     private Dialog currentDialog;
     private ImageView currentImagePreview;
-    private PollingHelper pollingHelper;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -96,17 +94,6 @@ public class QuanLySanPham extends AppCompatActivity {
         loadProducts();
         // Load danh mục để dùng cho spinner
         loadCategories();
-
-        // Khởi tạo PollingHelper để tự động cập nhật mỗi 5 giây
-        pollingHelper = new PollingHelper("QuanLySanPham", 5000);
-        pollingHelper.setRefreshCallback(() -> {
-            // Chỉ refresh nếu không đang search
-            if (edtSearchSanPham.getText().toString().trim().isEmpty()) {
-                loadProducts();
-                loadCategories();
-            }
-        });
-        pollingHelper.startPolling();
 
         // Search
         edtSearchSanPham.addTextChangedListener(new TextWatcher() {
@@ -158,15 +145,7 @@ public class QuanLySanPham extends AppCompatActivity {
                 List<Product> currentList = adapter.getProductList();
                 if (position >= 0 && position < currentList.size()) {
                     Product product = currentList.get(position);
-                    // Confirm dialog trước khi xóa
-                    new android.app.AlertDialog.Builder(QuanLySanPham.this)
-                            .setTitle("Xác nhận xóa")
-                            .setMessage("Bạn có chắc chắn muốn xóa sản phẩm \"" + product.getName() + "\"?")
-                            .setPositiveButton("Xóa", (dialog, which) -> {
                                 deleteProduct(product.getId());
-                            })
-                            .setNegativeButton("Hủy", null)
-                            .show();
                 }
             }
         });
@@ -300,6 +279,7 @@ public class QuanLySanPham extends AppCompatActivity {
             String name = edtName.getText().toString().trim();
             String description = edtDescription.getText().toString().trim();
             String priceStr = edtPrice.getText().toString().trim();
+            String price = edtPrice.getText().toString().trim();
             int selectedPosition = spinnerDanhMuc.getSelectedItemPosition();
 
             if (name.isEmpty() || priceStr.isEmpty()) {
@@ -313,12 +293,9 @@ public class QuanLySanPham extends AppCompatActivity {
             }
 
             try {
-                // Loại bỏ dấu chấm phân cách hàng nghìn trước khi parse
-                String priceStrClean = priceStr.replace(".", "");
-                double price = Double.parseDouble(priceStrClean);
                 // selectedPosition - 1 vì index 0 là "Chọn danh mục"
                 String categoryId = danhMucList.get(selectedPosition - 1).getId();
-                createProduct(name, description, price, categoryId, dialog);
+                createProduct(name, description, Double.parseDouble(price), categoryId, dialog);
             } catch (NumberFormatException e) {
                 Toast.makeText(this, "Giá không hợp lệ", Toast.LENGTH_SHORT).show();
             }
@@ -406,20 +383,17 @@ public class QuanLySanPham extends AppCompatActivity {
         btnAdd.setOnClickListener(v -> {
             String name = edtName.getText().toString().trim();
             String description = edtDescription.getText().toString().trim();
-            String priceStr = edtPrice.getText().toString().trim();
+            String price = edtPrice.getText().toString().trim();
             int selectedPosition = spinnerDanhMuc.getSelectedItemPosition();
 
-            if (name.isEmpty() || priceStr.isEmpty()) {
+            if (name.isEmpty() || price.isEmpty()) {
                 Toast.makeText(this, "Vui lòng nhập đủ thông tin", Toast.LENGTH_SHORT).show();
                 return;
             }
 
             try {
-                // Loại bỏ dấu chấm phân cách hàng nghìn trước khi parse
-                String priceStrClean = priceStr.replace(".", "");
-                double price = Double.parseDouble(priceStrClean);
                 String categoryId = danhMucList.get(selectedPosition).getId();
-                updateProduct(product.getId(), name, description, price, categoryId, position, dialog);
+                updateProduct(product.getId(), name, description, Double.parseDouble(price), categoryId, position, dialog);
             } catch (NumberFormatException e) {
                 Toast.makeText(this, "Giá không hợp lệ", Toast.LENGTH_SHORT).show();
             }
@@ -661,14 +635,6 @@ public class QuanLySanPham extends AppCompatActivity {
         } catch (Exception e) {
             Log.e("File Creation", "Error creating file: " + e.getMessage());
             return null;
-        }
-    }
-
-    @Override
-    protected void onDestroy() {
-        super.onDestroy();
-        if (pollingHelper != null) {
-            pollingHelper.stopPolling();
         }
     }
 }
